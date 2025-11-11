@@ -8,6 +8,15 @@
 
     @section('main')
     
+    @if ($errors->has('akses'))
+    <div class="mx-10 mt-5">
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Akses Ditolak!</strong>
+            <span class="block sm:inline">{{ $errors->first('akses') }}</span>
+        </div>
+    </div>
+    @endif
+    
     <div class="mx-10 gap-20">
         <div class="py-20 mx-10 w-140">
             <div>
@@ -17,7 +26,7 @@
                 <p class="mt-15 ml-1">
                     Kneegrow Library adalah ruang literasi modern yang menghadirkan koleksi buku, jurnal, dan referensi digital untuk mendukung kebutuhan belajar, riset, dan hiburan. Kami berkomitmen menjadi pusat pengetahuan yang mudah diakses, nyaman, serta relevan dengan perkembangan zaman.
                 </p>
-                <button class="group flex items-center gap-2 mt-10 ml-1 w-fit h-fit px-3 py-2 rounded-full bg-[#242424] text-white transition-all duration-300 overflow-hidden">
+                <a class="group flex items-center gap-2 mt-10 ml-1 w-fit h-fit px-3 py-2 rounded-full bg-[#242424] text-white transition-all duration-300 overflow-hidden" href="/about">
                     <span>tentang kami</span>
                     <svg xmlns="http://www.w3.org/2000/svg" 
                          viewBox="0 0 24 24"
@@ -25,10 +34,9 @@
                       <path fill="currentColor" fill-rule="evenodd" 
                             d="M13.47 5.47a.75.75 0 0 1 1.06 0l6 6a.75.75 0 0 1 0 1.06l-6 6a.75.75 0 1 1-1.06-1.06l4.72-4.72H4a.75.75 0 0 1 0-1.5h14.19l-4.72-4.72a.75.75 0 0 1 0-1.06" clip-rule="evenodd"/>
                     </svg>
-                </button>                                    
+                </a>                                    
             </div>
         </div>
-    
         <div class="py-10 mx-11">
             <div class="flex gap-10 items-center">
                 <p class="text-4xl font-black">
@@ -39,18 +47,44 @@
                 </p>
             </div>
             <div class="my-10 justify-between flex">
-                <div class="w-60 h-85 bg-gray-200 rounded-2xl border hover:shadow-[0px_15px_0px_0px_rgba(36,36,36,1)] hover:translate-y-[-2px] transition duration-300 ease-in-out">
-                </div> 
-                <div class="w-60 h-85 bg-gray-200 rounded-2xl border hover:shadow-[0px_15px_0px_0px_rgba(36,36,36,1)] hover:translate-y-[-2px] transition duration-300 ease-in-out">
-                </div> 
-                <div class="w-60 h-85 bg-gray-200 rounded-2xl border hover:shadow-[0px_15px_0px_0px_rgba(36,36,36,1)] hover:translate-y-[-2px] transition duration-300 ease-in-out">
-                </div> 
-                <div class="w-60 h-85 bg-gray-200 rounded-2xl border hover:shadow-[0px_15px_0px_0px_rgba(36,36,36,1)] hover:translate-y-[-2px] transition duration-300 ease-in-out">
-                </div> 
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 justify-items-center">
+                    @foreach ($books as $book)
+                        <div class="w-60 bg-gray-100 rounded-2xl border 
+                                    hover:shadow-[0px_10px_0px_0px_rgba(36,36,36,1)] 
+                                    hover:-translate-y-1 transition duration-300 ease-in-out overflow-hidden">
+                
+                            {{-- Gambar Buku --}}
+                            <img src="{{ $book->image ? asset('storage/' . $book->image) : asset('images/default-book.jpg') }}"
+                                 alt="{{ $book->judul }}"
+                                 class="w-full h-72 object-cover rounded-t-2xl">
+                
+                            {{-- Info Buku --}}
+                            <div class="p-4 text-center">
+                                <h2 class="text-black font-semibold text-base truncate">{{ $book->judul }}</h2>
+                                <p class="text-gray-600 text-sm mb-3 truncate">oleh {{ $book->penulis }}</p>
+                
+                                <form action="/book/{{ $book->id }}/borrow" method="POST">
+                                    @csrf
+                                    <button type="submit"
+                                            class="bg-black text-white text-sm px-4 py-2 rounded-full hover:bg-gray-800 transition w-full">
+                                        Pinjam Buku
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                
+                {{-- Pagination --}}
+                @if ($books->hasPages())
+                    <div class="flex justify-center mt-10">
+                        {{ $books->links() }}
+                    </div>
+                @endif                 
             </div>
             <div class="flex justify-end">
                 <button class="group flex items-center gap-2 mt-10 ml-1 w-fit h-fit px-3 py-2 rounded-full bg-[#242424] text-white transition-all duration-300 overflow-hidden">
-                    <span>lebih banyak</span>
+                    <a href="/books">lebih banyak</a>
                     <svg xmlns="http://www.w3.org/2000/svg" 
                          viewBox="0 0 24 24"
                          class="w-0 opacity-0 transition-all duration-300 group-hover:w-5 group-hover:opacity-100">

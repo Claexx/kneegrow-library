@@ -1,5 +1,5 @@
 <div class="pl-64">
-  <header class="sticky top-0 z-30 flex h-16 items-center gap-4 bg-background px-6">
+  <header class="sticky top-0 z-30 flex h-16 items-center gap-4 px-6">
     <div class="flex flex-1 items-center gap-4">
     </div>
     <div class="flex items-center gap-4">
@@ -14,10 +14,52 @@
         <span class="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-secondary"></span>
       </button>
 
-      <!-- USER AVATAR -->
-      <div class="h-fit w-fit rounded-full bg-primary flex items-center justify-center bg-white border shadow-md">
-        <span class="text-sm p-3 font-medium text-primary-foreground text-[#0F0E0E]">JD</span>
+      <!-- USER AVATAR + DROPDOWN -->
+      <div x-data="{ open: false }" class="relative">
+        @php
+            $colors = ['bg-blue-600', 'bg-green-600', 'bg-yellow-500', 'bg-red-600', 'bg-purple-600', 'bg-pink-600'];
+            $color = $colors[crc32(Auth::user()->username) % count($colors)];
+        @endphp
+
+        <!-- Avatar Button -->
+        <button @click="open = !open"
+                class="relative rounded-full bg-white border shadow-md flex items-center justify-center focus:outline-none">
+            @if (Auth::user()->profile_photo)
+                <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}"
+                    alt="Profile"
+                    class="w-10 h-10 rounded-full object-cover">
+            @else
+                <div class="w-10 h-10 rounded-full {{ $color }} text-white flex items-center justify-center font-semibold">
+                    {{ strtoupper(substr(Auth::user()->username, 0, 2)) }}
+                </div>
+            @endif
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div x-show="open"
+            @click.away="open = false"
+            x-transition
+            class="absolute right-0 mt-2 w-56 bg-white border rounded-xl shadow-lg z-50">
+            <div class="p-4 border-b">
+                <p class="font-semibold">{{ Auth::user()->name ?? Auth::user()->username }}</p>
+                <p class="text-sm text-gray-500">{{ Auth::user()->email }}</p>
+            </div>
+
+            <div class="p-2">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                            class="w-full text-left px-3 py-2 rounded-lg text-red-500 hover:bg-red-50">
+                        Logout
+                    </button>
+                </form>
+            </div>
+        </div>
       </div>
+
+      <!-- AlpineJS (biar bisa toggle dropdown) -->
+      <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
     </div>
   </header>
 </div>
@@ -51,7 +93,7 @@
         </a>
 
         <!-- KOLEKSI -->
-        <a href="/koleksiadmin"
+        <a href="/bukuadmin"
            class="flex items-center gap-3 w-fit h-fit rounded-full bg-sidebar-primary px-3 py-3 text-sidebar-primary-foreground hover:bg-gray-300">
           <svg xmlns="http://www.w3.org/2000/svg"
                width="18" height="18" viewBox="0 0 24 24"
@@ -63,7 +105,7 @@
         </a>
 
         <!-- ANGGOTA -->
-        <a href="anggota"
+        <a href="/anggotaadmin"
            class="flex items-center gap-3 w-fit h-fit rounded-full bg-sidebar-primary px-3 py-3 text-sidebar-primary-foreground hover:bg-gray-300">
           <svg xmlns="http://www.w3.org/2000/svg"
                width="18" height="18" viewBox="0 0 24 24"
@@ -77,7 +119,7 @@
         </a>
 
         <!-- TRANSAKSI -->
-        <a href="transaksi"
+        <a href="/transaksiadmin"
            class="flex items-center gap-3 w-fit h-fit rounded-full bg-sidebar-primary px-3 py-3 text-sidebar-primary-foreground hover:bg-gray-300">
           <svg xmlns="http://www.w3.org/2000/svg"
                width="18" height="18" viewBox="0 0 24 24"
@@ -94,7 +136,7 @@
       <!-- BAGIAN BAWAH -->
       <div class="h-fit w-fit bg-white rounded-full py-2 px-2 mt-2 border shadow-md">
         <!-- NOTIFIKASI -->
-        <a href="notifikasi"
+        <a href="/notifikasiadmin"
            class="flex items-center gap-3 w-fit h-fit rounded-full bg-sidebar-primary px-3 py-3 text-sidebar-primary-foreground hover:bg-gray-300">
           <svg xmlns="http://www.w3.org/2000/svg"
                width="18" height="18" viewBox="0 0 24 24"
@@ -105,7 +147,7 @@
         </a>
 
         <!-- PENGATURAN -->
-        <a href="pengaturan"
+        <a href="/pengaturanadmin"
            class="flex items-center gap-3 w-fit h-fit rounded-full bg-sidebar-primary px-3 py-3 text-sidebar-primary-foreground hover:bg-gray-300">
           <svg xmlns="http://www.w3.org/2000/svg"
                width="18" height="18" viewBox="0 0 24 24"
