@@ -18,8 +18,8 @@
     @endif
     
     <div class="mx-10 gap-20">
-        <div class="py-20 mx-10 w-140">
-            <div>
+        <div class="py-20 mx-10 flex gap-40">
+            <div class="w-140">
                 <p class="text-6xl font-black">
                     RUANG LITERASI <span>NYAMAN</span> DAN <span>KOLABORATIF</span>
                 </p>
@@ -36,7 +36,11 @@
                     </svg>
                 </a>                                    
             </div>
+            <div>
+                <img src="{{ asset('cover.png') }}" alt="" class="w-80">
+            </div>
         </div>
+        
         <div class="py-10 mx-11">
             <div class="flex gap-10 items-center">
                 <p class="text-4xl font-black">
@@ -52,30 +56,34 @@
                         <div class="w-60 bg-gray-100 rounded-2xl border 
                                     hover:shadow-[0px_10px_0px_0px_rgba(36,36,36,1)] 
                                     hover:-translate-y-1 transition duration-300 ease-in-out overflow-hidden">
-                
-                            {{-- Gambar Buku --}}
+            
                             <img src="{{ $book->image ? asset('storage/' . $book->image) : asset('images/default-book.jpg') }}"
                                  alt="{{ $book->judul }}"
                                  class="w-full h-72 object-cover rounded-t-2xl">
-                
-                            {{-- Info Buku --}}
+            
                             <div class="p-4 text-center">
                                 <h2 class="text-black font-semibold text-base truncate">{{ $book->judul }}</h2>
                                 <p class="text-gray-600 text-sm mb-3 truncate">oleh {{ $book->penulis }}</p>
-                
-                                <form action="/book/{{ $book->id }}/borrow" method="POST">
-                                    @csrf
-                                    <button type="submit"
-                                            class="bg-black text-white text-sm px-4 py-2 rounded-full hover:bg-gray-800 transition w-full">
-                                        Pinjam Buku
-                                    </button>
-                                </form>
+            
+                                <div class="flex gap-2">
+                                    <a href="{{ route('buku.showlp', $book->id) }}"
+                                       class="w-1/2 bg-white border border-gray-300 text-gray-700 text-sm px-3 py-2 rounded-full hover:bg-gray-200 transition">
+                                        Detail
+                                    </a>
+            
+                                    <form action="/book/{{ $book->id }}/borrow" method="POST" class="w-1/2">
+                                        @csrf
+                                        <button type="submit"
+                                            class="bg-black text-white text-sm px-3 py-2 rounded-full hover:bg-gray-800 transition w-full">
+                                            Pinjam
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
-                
-                {{-- Pagination --}}
+
                 @if ($books->hasPages())
                     <div class="flex justify-center mt-10">
                         {{ $books->links() }}

@@ -20,7 +20,7 @@ class BukuController extends Controller
     
         $books = $query->latest()->paginate(12);
     
-        return view('public.books', compact('books'));
+        return view('public.book.books', compact('books'));
     }
 
     public function admin(Request $request)
@@ -66,11 +66,12 @@ class BukuController extends Controller
             'penerbit' => 'required|string|max:255',
             'tahun' => 'required|integer|min:1900|max:' . date('Y'),
             'kategori' => 'required|string',
+            'sinopsis' => 'required|string',
             'stok' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->only(['judul', 'penulis', 'penerbit', 'tahun', 'kategori', 'stok']);
+        $data = $request->only(['judul', 'penulis', 'penerbit', 'tahun', 'kategori','sinopsis', 'stok']);
 
         if ($request->hasFile('image')) {
             $fileName = time() . '_' . $request->file('image')->getClientOriginalName();
@@ -89,7 +90,49 @@ class BukuController extends Controller
         return view('admin.buku.detail', compact('book'));
     }
 
-    // 🔥 Tambahan method destroy
+    public function showlp($id)
+    {
+        $book = Book::findOrFail($id);
+        return view('public.book.detail', compact('book'));
+    }
+
+    public function edit($id){
+        $book = Book::findOrFail($id);
+        return view ('admin.buku.edit', compact('book'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $book = Book::findOrFail($id);
+
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'penulis' => 'required|string|max:255',
+            'penerbit' => 'required|string|max:255',
+            'tahun' => 'required|integer|min:1900|max:' . date('Y'),
+            'kategori' => 'required|string',
+            'sinopsis' => 'required|string',
+            'stok' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $data = $request->only(['judul', 'penulis', 'penerbit', 'tahun', 'kategori','sinopsis', 'stok']);
+
+        if ($request->hasFile('image')) {
+            if ($book->image && Storage::disk('public')->exists($book->image)) {
+                Storage::disk('public')->delete($book->image);
+            }
+
+            $fileName = time() . '_' . $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('books', $fileName, 'public');
+            $data['image'] = $path;
+        }
+
+        $book->update($data);
+
+        return redirect('/bukuadmin')->with('success', 'Buku berhasil diperbarui!');
+    }
+
     public function destroy($id)
     {
         $book = Book::findOrFail($id);

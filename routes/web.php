@@ -6,6 +6,8 @@ use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\AnggotaController;
+use App\Http\Controllers\ActivityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +21,11 @@ Route::view('/service', 'public.service')->name('service');
 Route::view('/contact', 'public.contact')->name('contact');
 Route::get('/profile', function () {return view('public.profile');})->middleware('auth')->name('profile');
 Route::get('/books', [BukuController::class, 'index'])->name('books.index');
-Route::get('/books/{id}', [BukuController::class, 'show'])->name('books.show');
+Route::get('/buku/{id}', [BukuController::class, 'showlp'])->name('buku.showlp');
+Route::post('/book/{id}/borrow', [TransactionController::class, 'borrow']);
+Route::get('/activity', [TransactionController::class, 'activity'])->name('activity.index');
+Route::post('/activity/{transaction}/return', [TransactionController::class, 'userReturn'])->name('activity.return');
+
 /*
 /--------------------------------------------------------------------------
 / Authentication Routes
@@ -30,7 +36,6 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/signup', [AuthController::class, 'showSignupForm'])->name('signup');
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
 /*
 |--------------------------------------------------------------------------
 | Google OAuth
@@ -56,18 +61,20 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/bukuadmin', [BukuController::class, 'admin'])->name('buku.index');
     Route::get('/bukuadmin/{id}', [BukuController::class, 'show'])->name('buku.show');
     Route::get('/bukuadmin/{id}/edit', [BukuController::class, 'edit'])->name('buku.edit');
+    Route::put('/bukuadmin/{id}', [BukuController::class, 'update'])->name('buku.update');
     Route::delete('/bukuadmin/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
 
 
 
     // Anggota
-    Route::get('/anggotaadmin', [AdminController::class, 'anggota'])->name('admin.anggota');
-    Route::get('/anggotatambah', [AdminController::class, 'anggotaTambah'])->name('anggota.tambah');
+    Route::resource('/anggotaadmin', AnggotaController::class);
 
-    // Transaksi
-    Route::get('/transaksiadmin', [TransactionController::class, 'index']);
-    Route::get('/transaksitambah', [TransactionController::class, 'create']);
-    Route::post('/transaksitambah', [TransactionController::class, 'store'])->name('transaksi.store');
-    Route::put('/transaksi/{id}', [TransactionController::class, 'update']);
-    Route::delete('/transaksi/{id}', [TransactionController::class, 'destroy']);
+    // List transaksi
+    Route::get('/transaksiadmin', [TransactionController::class, 'index'])->name('transaksi.index');
+    Route::get('/transaksitambah', [TransactionController::class, 'create'])->name('transaksi.create');
+    Route::post('/transaksiadmin', [TransactionController::class, 'store'])->name('transaksi.store');
+    Route::post('/admin/transaksi/pinjam/{user}/{book}', [TransactionController::class, 'pinjam'])
+        ->name('transaksi.pinjam');
+    Route::post('/admin/transaksi/kembalikan/{id}', [TransactionController::class, 'kembalikan'])
+        ->name('transaksi.kembalikan');
 });

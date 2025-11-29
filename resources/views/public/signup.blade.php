@@ -19,31 +19,37 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
                 <input type="text" name="name" value="{{ old('name') }}" placeholder="Masukkan nama lengkap"
-                    class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300 focus:border-blue-400 outline-none" required>
+                    class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300" required>
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
                 <input type="text" name="username" value="{{ old('username') }}" placeholder="Masukkan username"
-                    class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300 focus:border-blue-400 outline-none" required>
+                    class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300" required>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">No Telepon</label>
+                <input type="text" name="notelp" value="{{ old('notelp') }}" placeholder="Masukkan No Telepon"
+                    class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300" required>
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Email (opsional)</label>
                 <input type="email" name="email" value="{{ old('email') }}" placeholder="Masukkan email"
-                    class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300 focus:border-blue-400 outline-none">
+                    class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
                 <input type="password" name="password" placeholder="Masukkan password"
-                    class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300 focus:border-blue-400 outline-none" required>
+                    class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300" required>
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Foto Profil (opsional)</label>
                 <input type="file" name="profile_photo" accept="image/*"
-                    class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300 focus:border-blue-400 outline-none">
+                    class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300">
             </div>
 
             <div class="pt-2">
@@ -57,6 +63,7 @@
                 Sudah punya akun?
                 <a href="/login" class="text-blue-600 hover:underline">Masuk sekarang</a>
             </p>
+
         </form>
     </div>
 </div>

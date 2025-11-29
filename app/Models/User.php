@@ -13,8 +13,9 @@ class User extends Authenticatable
         'name',
         'username',
         'email',
+        'notelp',
         'password',
-        'role',
+        'is_admin',
         'google_id',
         'profile_photo',
     ];
@@ -23,4 +24,9 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function transactions()
+    {
+        return$this-> hasMany(transactions::class);
+    }
 }

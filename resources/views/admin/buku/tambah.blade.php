@@ -58,6 +58,12 @@
             </div>
 
             <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Sinopsis</label>
+                <textarea name="sinopsis" placeholder="Masukkan sinopsis buku"
+                    class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300" rows="5"></textarea>
+            </div>
+
+            <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Jumlah Stok</label>
                 <input type="number" name="stok" placeholder="Masukkan jumlah stok buku"
                     class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300">
@@ -70,7 +76,7 @@
             </div>
 
             <div class="flex justify-end gap-3 pt-4">
-                <a href="/koleksiadmin" 
+                <a href="{{ route('buku.index') }}" 
                    class="px-4 py-2 border rounded-lg text-gray-600 hover:bg-gray-100">Batal</a>
                 <button type="submit" 
                         class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">

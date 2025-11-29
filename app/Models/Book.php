@@ -15,7 +15,13 @@ class Book extends Model
         'penerbit',
         'tahun',
         'kategori',
+        'sinopsis',
         'stok',
         'image',
     ];
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }

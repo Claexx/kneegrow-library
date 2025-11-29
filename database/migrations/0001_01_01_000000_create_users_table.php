@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('username')->unique();
             $table->string('email')->unique()->nullable();
+            $table->string('notelp')->nullable();
             $table->string('password')->nullable();
             $table->boolean('is_admin')->default(false); // 🔹 Ganti dari role ke boolean
             $table->string('google_id')->nullable();

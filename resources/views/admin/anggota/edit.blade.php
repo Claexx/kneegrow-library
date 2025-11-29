@@ -1,6 +1,6 @@
 @extends('template.layout-admin')
 
-@section('title', 'Tambah Anggota')
+@section('title', 'Edit Anggota')
 
 @section('header')
     @include('template.sidebar')
@@ -10,52 +10,45 @@
 <main class="pl-34 p-6 min-h-screen bg-white">
 
     <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Tambah Anggota</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Edit Anggota</h1>
         <a href="{{ route('anggotaadmin.index') }}" 
            class="text-blue-600 hover:underline text-sm">← Kembali ke daftar anggota</a>
     </div>
 
     <div class="bg-white rounded-xl shadow border p-6 max-w-2xl">
-        @if ($errors->any())
-            <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
-                <ul>
-                    @foreach ($errors->all() as $err)
-                        <li>{{ $err }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
 
-        <form action="{{ route('anggotaadmin.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+        <form action="{{ route('anggotaadmin.update', $anggota->id) }}" 
+              method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
+            @method('PUT')
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
-                <input type="text" name="name" placeholder="Masukkan nama anggota"
+                <input type="text" name="name" value="{{ $anggota->name }}"
                     class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-                <input type="text" name="username" placeholder="Masukkan username"
+                <input type="text" name="username" value="{{ $anggota->username }}"
                     class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                <input type="email" name="email" placeholder="Email anggota"
+                <input type="email" name="email" value="{{ $anggota->email }}"
                     class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">No Telepon</label>
-                <input type="text" name="notelp" placeholder="Nomor telepon"
+                <input type="text" name="notelp" value="{{ $anggota->notelp }}"
                     class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300">
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                <input type="password" name="password" placeholder="Password anggota"
+                <label class="block text-sm font-medium text-gray-700 mb-1">Password Baru</label>
+                <input type="password" name="password" placeholder="Kosongkan jika tidak diganti"
                     class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300">
             </div>
 
@@ -63,6 +56,11 @@
                 <label class="block text-sm font-medium text-gray-700 mb-1">Foto Anggota</label>
                 <input type="file" name="profile_photo"
                     class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300">
+
+                @if ($anggota->profile_photo)
+                    <img src="{{ asset('storage/' . $anggota->profile_photo) }}" 
+                         class="w-24 h-24 rounded-full object-cover mt-3">
+                @endif
             </div>
 
             <div class="flex justify-end gap-3 pt-4">
@@ -70,9 +68,10 @@
                    class="px-4 py-2 border rounded-lg text-gray-600 hover:bg-gray-100">Batal</a>
                 <button type="submit" 
                         class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                    Simpan
+                    Update
                 </button>
             </div>
+
         </form>
     </div>
 

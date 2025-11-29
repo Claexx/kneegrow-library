@@ -28,7 +28,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($transactions as $i => $t)
+                @foreach ($transaksi as $i => $t)
                 <tr class="border-t hover:bg-gray-50">
                     <td class="px-6 py-3">{{ $i + 1 }}</td>
                     <td class="px-6 py-3">{{ $t->user->name }}</td>

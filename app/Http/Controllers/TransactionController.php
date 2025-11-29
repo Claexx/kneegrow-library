@@ -2,96 +2,125 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transaction;
-use App\Models\Book;
 use App\Models\User;
+use App\Models\Book;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class TransactionController extends Controller
 {
-    // Halaman daftar transaksi (Admin)
     public function index()
     {
-        $transactions = Transaction::with(['user', 'book'])->latest()->get();
-        return view('admin.transaksi.index', compact('transactions'));
+        $transaksi = Transaction::with(['user', 'book'])->latest()->get();
+        return view('admin.transaksi.index', compact('transaksi'));
     }
 
-    // Form tambah transaksi (Admin)
     public function create()
     {
-        $users = User::all();
-        $books = Book::all();
+        $users = User::where('is_admin', false)->get();
+        $books = Book::where('stok', '>', 0)->get();
+
         return view('admin.transaksi.tambah', compact('users', 'books'));
     }
 
-    // Simpan transaksi baru (Admin)
     public function store(Request $request)
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
-            'book_id' => 'required|exists:books,id',
-            'tanggal_pinjam' => 'required|date',
-            'tanggal_kembali' => 'nullable|date|after_or_equal:tanggal_pinjam',
+            'book_id' => 'required|exists:books,id'
         ]);
 
-        Transaction::create([
-            'user_id' => $request->user_id,
-            'book_id' => $request->book_id,
-            'tanggal_pinjam' => $request->tanggal_pinjam,
-            'tanggal_kembali' => $request->tanggal_kembali,
-            'status' => 'Dipinjam',
-        ]);
+        $book = Book::findOrFail($request->book_id);
 
-        return redirect('/transaksiadmin')->with('success', 'Transaksi berhasil ditambahkan.');
-    }
-
-    // Ubah status jadi dikembalikan
-    public function update($id)
-    {
-        $transaction = Transaction::findOrFail($id);
-        $transaction->update([
-            'status' => 'Dikembalikan',
-            'tanggal_kembali' => now(),
-        ]);
-
-        return back()->with('success', 'Buku berhasil dikembalikan.');
-    }
-
-    // Hapus transaksi
-    public function destroy($id)
-    {
-        $transaction = Transaction::findOrFail($id);
-        $transaction->delete();
-
-        return back()->with('success', 'Transaksi berhasil dihapus.');
-    }
-
-    // User klik "Pinjam" di halaman public
-    public function borrow($bookId)
-    {
-        $user = Auth::user();
-
-        if (!$user) {
-            return redirect('/login')->withErrors(['akses' => 'Anda harus login untuk meminjam buku.']);
+        if ($book->stok < 1) {
+            return back()->with('error', 'Stok buku tidak cukup');
         }
 
-        $existing = Transaction::where('book_id', $bookId)
-            ->where('user_id', $user->id)
-            ->where('status', 'Dipinjam')
-            ->first();
+        try {
+            Transaction::create([
+                'user_id' => $request->user_id,
+                'book_id' => $request->book_id,
+                'tanggal_pinjam' => Carbon::now()->toDateString(),
+                'status' => 'Dipinjam'
+            ]);
 
-        if ($existing) {
-            return back()->withErrors(['akses' => 'Anda sudah meminjam buku ini dan belum mengembalikannya.']);
+            $book->decrement('stok');
+
+            return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil ditambahkan');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function borrow($id)
+    {
+        $book = Book::findOrFail($id);
+
+        if ($book->stok < 1) {
+            return back()->with('error', 'Stok buku habis!');
         }
 
-        Transaction::create([
-            'user_id' => $user->id,
-            'book_id' => $bookId,
-            'tanggal_pinjam' => now(),
-            'status' => 'Dipinjam',
-        ]);
+        try {
+            Transaction::create([
+                'user_id' => auth()->id(),
+                'book_id' => $book->id,
+                'tanggal_pinjam' => Carbon::now()->toDateString(),
+                'status' => 'Dipinjam'
+            ]);
 
-        return back()->with('success', 'Buku berhasil dipinjam!');
+            $book->decrement('stok');
+
+            return back()->with('success', 'Buku berhasil dipinjam');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
+
+    public function kembalikan(Transaction $transaction)
+    {
+        try {
+            $transaction->update([
+                'status' => 'Dikembalikan',
+                'tanggal_kembali' => Carbon::now()->toDateString()
+            ]);
+
+            $transaction->book->increment('stok');
+
+            return back()->with('success', 'Buku dikembalikan!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function activity()
+    {
+        $transaksi = Transaction::with(['book'])
+            ->where('user_id', auth()->id())
+            ->latest()
+            ->get();
+
+        return view('public.activity', compact('transaksi'));
+    }
+
+    public function userReturn(Transaction $transaction)
+    {
+        if ($transaction->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        try {
+            $transaction->update([
+                'status' => 'Dikembalikan',
+                'tanggal_kembali' => Carbon::now()->toDateString(),
+            ]);
+
+            $transaction->book->increment('stok');
+
+            return back()->with('success', 'Buku berhasil dikembalikan!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
 }

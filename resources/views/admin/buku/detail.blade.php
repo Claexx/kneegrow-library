@@ -41,6 +41,7 @@
                 <p class="text-gray-600 text-sm mb-1"><span class="font-medium">Penerbit:</span> {{ $book->penerbit }}</p>
                 <p class="text-gray-600 text-sm mb-1"><span class="font-medium">Tahun Terbit:</span> {{ $book->tahun }}</p>
                 <p class="text-gray-600 text-sm mb-1"><span class="font-medium">Kategori:</span> {{ ucfirst($book->kategori) }}</p>
+                <p class="text-gray-600 text-sm mb-1"><span class="font-medium">Sinopsis:</span> {{ ucfirst($book->sinopsis) }}</p>
                 <p class="text-gray-600 text-sm mb-4"><span class="font-medium">Jumlah Stok:</span> {{ $book->stok }}</p>
             </div>
 

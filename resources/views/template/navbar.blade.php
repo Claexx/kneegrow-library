@@ -6,11 +6,11 @@
         <a href="/">home</a>
         <a href="/about">about</a>
         <a href="/books">book</a>
+        <a href="/activity">activity</a>
         <a href="/service">service</a>
         <a href="/contact">contact us</a>
     </div>
 
-    {{-- Bagian kanan: login / profil --}}
     <div class="relative">
         @auth
             @php
@@ -18,7 +18,6 @@
                 $color = $colors[crc32(Auth::user()->username) % count($colors)];
             @endphp
 
-            {{-- Tombol foto profil / avatar --}}
             <button id="profileDropdownButton" class="focus:outline-none">
                 @if (Auth::user()->profile_photo)
                     <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}"
@@ -31,7 +30,6 @@
                 @endif
             </button>
 
-            {{-- Dropdown --}}
             <div id="profileDropdown"
                  class="hidden absolute right-0 mt-2 w-48 bg-white border rounded-xl shadow-lg">
                 <div class="p-3 border-b">

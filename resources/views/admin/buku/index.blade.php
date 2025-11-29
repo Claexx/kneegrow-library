@@ -9,7 +9,6 @@
 @section('main')
 
 <main class="pl-34 p-6 min-h-screen">
-  <!-- TITLE -->
   <div class="flex justify-between">
     <div class="mb-6">
       <h1 class="text-2xl font-bold text-gray-800">Koleksi Buku</h1>
@@ -21,43 +20,51 @@
       </a>
     </div>
   </div>
-  
-  <!-- KOLEKSI GRID -->
+
   <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-
-    @forelse ($books as $book)
-      <!-- CARD ITEM -->
-      <div class="bg-white rounded-2xl p-4 shadow-md border flex flex-col justify-between">
-        <div>
-          {{-- Gambar buku --}}
-          @if ($book->image)
-            <img src="{{ asset('storage/' . $book->image) }}" 
-                 alt="{{ $book->judul }}" 
-                 class="w-full h-48 object-cover rounded-lg mb-3">
-          @else
-            <div class="w-full h-48 bg-gray-100 flex items-center justify-center rounded-lg mb-3 text-gray-400 text-sm">
-              Tidak ada gambar
-            </div>
-          @endif
-
-          <h2 class="text-lg font-semibold text-gray-800">{{ $book->judul }}</h2>
-          <p class="text-sm text-gray-600 mb-2">{{ $book->penulis }}</p>
-        </div>
-        <div class="flex justify-between items-center mt-2">
-          <span class="text-xs text-gray-500">Tersedia: {{ $book->stok }}</span>
-          <a href="{{ route('buku.show', $book->id) }}" 
-             class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded-lg shadow">
-            Detail
-          </a>
-        </div>
-      </div>
-    @empty
-      <p class="text-gray-500 text-center col-span-4 py-10">Belum ada buku yang ditambahkan.</p>
-    @endforelse
-
+    <table class="min-w-full text-sm text-left text-gray-600">
+      <thead class="bg-gray-100 text-gray-700 uppercase text-xs font-semibold">
+          <tr>
+              <th class="px-6 py-3">#</th>
+              <th class="px-6 py-3">Judul</th>
+              <th class="px-6 py-3">Penulis</th>
+              <th class="px-6 py-3">Penerbit</th>
+              <th class="px-6 py-3">Tahun</th>
+              <th class="px-6 py-3">Kategori</th>
+              <th class="px-6 py-3">Stok</th>
+              <th class="px-6 py-3">Tanggal pembuatan</th>
+              <th class="px-6 py-3 text-center">Aksi</th>
+          </tr>
+      </thead>
+      <tbody>
+          @foreach ($books as $i => $a)
+          <tr class="border-t hover:bg-gray-50 transition">
+              <td class="px-6 py-3">{{ $i + 1 }}</td>
+              <td class="px-6 py-3 font-medium text-gray-900">{{ $a->judul }}</td>
+              <td class="px-6 py-3 font-medium text-gray-900">{{ $a->penulis }}</td>
+              <td class="px-6 py-3">{{ $a->penerbit }}</td>
+              <td class="px-6 py-3">{{ $a->tahun }}</td>
+              <td class="px-6 py-3">{{ $a->kategori }}</td>
+              <td class="px-6 py-3">{{ $a->stok }}</td>
+              <td class="px-6 py-3">
+                  {{ $a->created_at ? $a->created_at->format('d M Y') : '-' }}
+              </td>
+              <td class="px-6 py-3 flex justify-center gap-2">
+                  <a href="{{ route('buku.show', $a->id) }}" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">Detail</a>
+                  <a href="{{ route('buku.edit', $a->id) }}" class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">Edit</a>
+                  <form action="{{ route('buku.destroy', $a->id) }}" method="POST"
+                      onsubmit="return confirm('Hapus anggota ini?')">
+                      @csrf
+                      @method('DELETE')
+                      <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">Hapus</button>
+                  </form>
+              </td>
+          </tr>
+          @endforeach
+      </tbody>
+  </table>
   </div>
 
-  <!-- PAGINATION -->
   <div class="mt-6">
     {{ $books->links() }}
   </div>
