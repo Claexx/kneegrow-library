@@ -12,10 +12,15 @@ class BukuController extends Controller
     {
         $query = Book::query();
 
-        if ($request->has('search')) {
+        if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where('judul', 'like', "%$search%")
                   ->orWhere('penulis', 'like', "%$search%");
+        }
+
+        if ($request->has('category') && !empty($request->category)) {
+            $category = $request->category;
+            $query->where('kategori', 'like', "%$category%");
         }
     
         $books = $query->latest()->paginate(12);
@@ -69,6 +74,7 @@ class BukuController extends Controller
             'sinopsis' => 'required|string',
             'stok' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'ebook' => 'nullable|mimes:pdf,epub|max:10240',
         ]);
 
         $data = $request->only(['judul', 'penulis', 'penerbit', 'tahun', 'kategori','sinopsis', 'stok']);
@@ -77,6 +83,12 @@ class BukuController extends Controller
             $fileName = time() . '_' . $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('books', $fileName, 'public');
             $data['image'] = $path;
+        }
+
+        if ($request->hasFile('ebook')) {
+            $fileName = time() . '_' . $request->file('ebook')->getClientOriginalName();
+            $ebookPath = $request->file('ebook')->storeAs('ebooks', $fileName, 'public');
+            $data['ebook'] = $ebookPath;
         }
 
         Book::create($data);
@@ -94,6 +106,18 @@ class BukuController extends Controller
     {
         $book = Book::findOrFail($id);
         return view('public.book.detail', compact('book'));
+    }
+
+    // Serve ebook file for download
+    public function downloadEbook($id)
+    {
+        $book = Book::findOrFail($id);
+
+        if (!$book->ebook || !Storage::disk('public')->exists($book->ebook)) {
+            abort(404);
+        }
+
+        return response()->download(storage_path('app/public/' . $book->ebook), $book->judul . '.' . pathinfo($book->ebook, PATHINFO_EXTENSION));
     }
 
     public function edit($id){
@@ -114,6 +138,7 @@ class BukuController extends Controller
             'sinopsis' => 'required|string',
             'stok' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'ebook' => 'nullable|mimes:pdf,epub|max:10240',
         ]);
 
         $data = $request->only(['judul', 'penulis', 'penerbit', 'tahun', 'kategori','sinopsis', 'stok']);
@@ -128,6 +153,14 @@ class BukuController extends Controller
             $data['image'] = $path;
         }
 
+        if ($request->hasFile('ebook')) {
+            if ($book->ebook && Storage::disk('public')->exists($book->ebook)) {
+                Storage::disk('public')->delete($book->ebook);
+            }
+            $fileName = time() . '_' . $request->file('ebook')->getClientOriginalName();
+            $ebookPath = $request->file('ebook')->storeAs('ebooks', $fileName, 'public');
+            $data['ebook'] = $ebookPath;
+        }
         $book->update($data);
 
         return redirect('/bukuadmin')->with('success', 'Buku berhasil diperbarui!');
@@ -140,6 +173,11 @@ class BukuController extends Controller
         // Hapus gambar dari storage jika ada
         if ($book->image && Storage::disk('public')->exists($book->image)) {
             Storage::disk('public')->delete($book->image);
+        }
+
+        // Hapus ebook dari storage jika ada
+        if ($book->ebook && Storage::disk('public')->exists($book->ebook)) {
+            Storage::disk('public')->delete($book->ebook);
         }
 
         // Hapus data buku dari database

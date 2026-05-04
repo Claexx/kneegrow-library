@@ -10,17 +10,24 @@
 
 <div class="mx-10 gap-20">
 
-    <!-- Hero Section -->
-    <div class="py-20 mx-10 w-140">
-        <div>
-            <p class="text-6xl font-black">
-                HUBUNGI <span>KAMI</span>
-            </p>
-            <p class="mt-10 ml-1">
-                Kami senang mendengar dari Anda! Jika Anda memiliki pertanyaan, saran, atau ingin berkolaborasi dengan Kneegrow Library, jangan ragu untuk menghubungi kami melalui formulir atau informasi kontak di bawah ini.
-            </p>
+    <div class="py-8 mx-11">
+        <div class="flex items-center gap-8">
+            <div class="flex-1">
+                <p class="text-5xl font-black mb-4">
+                    HUBUNGI <span class="text-[#86FF79]">KAMI</span>
+                </p>
+                <p class="text-sm leading-relaxed max-w-lg">
+                    Kami senang mendengar dari Anda! Jika Anda memiliki pertanyaan, saran,
+                    atau ingin berkolaborasi dengan Kneegrow Library, jangan ragu untuk
+                    menghubungi kami melalui formulir atau informasi kontak di bawah ini.
+                </p>
+            </div>
+            <div class="flex-1 flex justify-end">
+                <img src="{{ asset('contact.png') }}" alt="Contact Illustration" class="w-80">
+            </div>
         </div>
     </div>
+
 
     <!-- Contact Info Section -->
     <div class="py-10 mx-11">

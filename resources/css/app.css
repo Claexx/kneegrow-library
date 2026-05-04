@@ -1,11 +1,34 @@
+
 @import 'tailwindcss';
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+/* Responsive helpers */
+.container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+body {
+    @apply bg-white text-gray-900 font-sans;
+}
+
+/* Remove dark mode if any */
+/* No dark mode class or selector present */
+
+/* Utility for consistent card */
+.card {
+    @apply bg-white rounded-xl shadow-md p-4 mb-4;
+}
+
+/* Utility for responsive images */
+img.responsive {
+    @apply max-w-full h-auto;
+}
+
+/* Utility for button */
+.btn {
+    @apply px-4 py-2 rounded-lg font-semibold transition;
+}
+
+/* Utility for section spacing */
+.section {
+    @apply my-8;
 }

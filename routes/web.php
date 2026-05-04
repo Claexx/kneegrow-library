@@ -19,12 +19,20 @@ Route::get('/', [BukuController::class, 'lp'])->name('books.index');
 Route::view('/about', 'public.about')->name('about');
 Route::view('/service', 'public.service')->name('service');
 Route::view('/contact', 'public.contact')->name('contact');
-Route::get('/profile', function () {return view('public.profile');})->middleware('auth')->name('profile');
 Route::get('/books', [BukuController::class, 'index'])->name('books.index');
 Route::get('/buku/{id}', [BukuController::class, 'showlp'])->name('buku.showlp');
+Route::get('/buku/{id}/download', [BukuController::class, 'downloadEbook'])->name('buku.download');
 Route::post('/book/{id}/borrow', [TransactionController::class, 'borrow']);
-Route::get('/activity', [TransactionController::class, 'activity'])->name('activity.index');
+Route::get('/activity', [TransactionController::class, 'activity'])->name('activity.index')->middleware('auth');
 Route::post('/activity/{transaction}/return', [TransactionController::class, 'userReturn'])->name('activity.return');
+
+// API Notifications
+Route::get('/api/notifications', function () {
+    if (!auth()->check()) {
+        return response()->json([]);
+    }
+    return response()->json(auth()->user()->notifications()->latest()->take(5)->get());
+})->middleware('auth')->name('api.notifications');
 
 /*
 /--------------------------------------------------------------------------
@@ -78,3 +86,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/transaksi/kembalikan/{id}', [TransactionController::class, 'kembalikan'])
         ->name('transaksi.kembalikan');
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', function () {return view('public.profile');})->middleware('auth')->name('profile');
+    Route::get('/profile/edit', [\App\Http\Controllers\ProfileController::class, 'edit'])->middleware('auth')->name('profile.edit');
+    Route::put('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->middleware('auth')->name('profile.update');
+}); 

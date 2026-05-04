@@ -3,7 +3,7 @@
 @section('title', 'Login')
 
 @section('main')
-<div class="flex justify-center items-center min-h-screen bg-gray-50">
+<div class="container section flex justify-center items-center min-h-screen bg-gray-50">
     <div class="bg-white rounded-xl shadow border p-8 w-full max-w-md">
         <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Login Akun</h2>
 

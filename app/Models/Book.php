@@ -18,6 +18,7 @@ class Book extends Model
         'sinopsis',
         'stok',
         'image',
+        'ebook',
     ];
 
     public function transactions()

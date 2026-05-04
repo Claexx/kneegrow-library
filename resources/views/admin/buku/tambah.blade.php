@@ -54,6 +54,16 @@
                     <option value="biografi">Biografi</option>
                     <option value="pelajaran">Pelajaran</option>
                     <option value="umum">Umum</option>
+                    <option value="sejarah">Sejarah</option>
+                    <option value="teknologi">Teknologi & Komputer</option>
+                    <option value="pengembangan_diri">Pengembangan Diri</option>
+                    <option value="agama">Agama</option>
+                    <option value="kesehatan">Kesehatan</option>
+                    <option value="sains">Sains & Matematika</option>
+                    <option value="komik">Komik / Manga</option>
+                    <option value="bisnis">Bisnis & Ekonomi</option>
+                    <option value="anak_anak">Buku Anak</option>
+                    <option value="referensi">Referensi (Kamus/Ensiklopedi)</option>
                 </select>
             </div>
 
@@ -72,6 +82,11 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Upload Gambar</label>
                 <input type="file" name="image" 
+                    class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Upload E-Book (PDF / EPUB)</label>
+                <input type="file" name="ebook" accept=".pdf,.epub" 
                     class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300">
             </div>
 

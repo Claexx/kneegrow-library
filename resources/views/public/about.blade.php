@@ -11,14 +11,19 @@
 <div class="mx-10 gap-20">
 
     <!-- Hero Section -->
-    <div class="py-20 mx-10 w-140">
-        <div>
-            <p class="text-6xl font-black">
-                TENTANG <span>KAMI</span>
-            </p>
-            <p class="mt-10 ml-1">
-                Kneegrow Library merupakan ruang literasi yang didirikan untuk menghadirkan pengalaman membaca dan belajar yang nyaman, modern, dan kolaboratif. Kami percaya bahwa pengetahuan adalah kunci untuk menciptakan perubahan positif bagi masyarakat.
-            </p>
+    <div class="py-8 mx-11">
+        <div class="flex items-center gap-8">
+            <div class="flex-1">
+                <p class="text-5xl font-black mb-4">
+                    TENTANG <span class="text-[#86FF79]">KAMI</span>
+                </p>
+                <p class="text-sm leading-relaxed max-w-lg">
+                    Kneegrow Library merupakan ruang literasi yang didirikan untuk menghadirkan pengalaman membaca dan belajar yang nyaman, modern, dan kolaboratif. Kami percaya bahwa pengetahuan adalah kunci untuk menciptakan perubahan positif bagi masyarakat.
+                </p>
+            </div>
+            <div class="flex-1 flex justify-end">
+                <img src="{{ asset('about.png') }}" alt="Contact Illustration" class="w-80">
+            </div>
         </div>
     </div>
 

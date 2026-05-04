@@ -49,6 +49,10 @@
                 <a href="{{ route('buku.edit', $book->id) }}" 
                    class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition">Edit Buku</a>
 
+                @if($book->ebook)
+                    <a href="{{ route('buku.download', $book->id) }}" class="bg-[#242424] hover:opacity-90 text-white px-4 py-2 rounded-lg transition">Unduh E-Book</a>
+                @endif
+
                 <form action="{{ route('buku.destroy', $book->id) }}" method="POST" 
                       onsubmit="return confirm('Yakin ingin menghapus buku ini?')">
                     @csrf

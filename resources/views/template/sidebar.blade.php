@@ -46,6 +46,12 @@
             </div>
 
             <div class="p-2">
+                <a href="/"
+                   class="block px-3 py-2 rounded-lg hover:bg-gray-100">
+                    dashboard
+                </a>
+            </div>
+            <div class="p-2">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit"

@@ -42,8 +42,10 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Sinopsis</label>
-                    <textarea name="sinopsis" placeholder="Masukkan sinopsis buku"
-                        class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300" rows="5"></textarea>
+                    <textarea 
+                        name="sinopsis" 
+                        class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-300" 
+                        rows="5">{{ $book->sinopsis }}</textarea>
                 </div>
                 <div>
                     <label class="font-semibold">Stok</label>
@@ -57,6 +59,13 @@
                     @if ($book->image)
                         <img src="{{ asset('storage/'.$book->image) }}"
                              class="w-24 h-32 object-cover rounded-lg mt-2">
+                    @endif
+                </div>
+                <div>
+                    <label class="font-semibold">Upload E-Book (PDF / EPUB)</label>
+                    <input type="file" name="ebook" accept=".pdf,.epub" class="w-full px-4 py-2 border rounded-lg">
+                    @if ($book->ebook)
+                        <p class="text-xs text-gray-500 mt-2">Ebook saat ini: <a href="{{ asset('storage/'.$book->ebook) }}" target="_blank" class="text-blue-600 hover:underline">Lihat / Unduh</a></p>
                     @endif
                 </div>
             </div>

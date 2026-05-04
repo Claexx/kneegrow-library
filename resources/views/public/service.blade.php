@@ -8,17 +8,22 @@
 
 @section('main')
 
-<div class="mx-10 gap-20">
+<div class="container section gap-20">
 
     <!-- Hero Section -->
-    <div class="py-20 mx-10 w-140">
-        <div>
-            <p class="text-6xl font-black">
-                LAYANAN <span>KAMI</span>
-            </p>
-            <p class="mt-10 ml-1">
-                Kneegrow Library menyediakan berbagai layanan literasi dan pembelajaran untuk mendukung kebutuhan akademik, riset, maupun hiburan pembaca. Semua layanan kami dirancang agar mudah diakses dan inklusif bagi semua kalangan.
-            </p>
+    <div class="py-8 mx-11">
+        <div class="flex items-center gap-8">
+            <div class="flex-1">
+                <p class="text-5xl font-black mb-4">
+                    LAYANAN <span class="text-[#87FF79]">KAMI</span>
+                </p>
+                <p class="text-sm leading-relaxed max-w-lg">
+                    Kneegrow Library menyediakan berbagai layanan literasi dan pembelajaran untuk mendukung kebutuhan akademik, riset, maupun hiburan pembaca. Semua layanan kami dirancang agar mudah diakses dan inklusif bagi semua kalangan.
+                </p>
+            </div>
+            <div class="flex-1 flex justify-end">
+                <img src="{{ asset('service.png') }}" alt="Contact Illustration" class="w-80">
+            </div>
         </div>
     </div>
 
@@ -32,24 +37,24 @@
         </div>
 
         <div class="my-10 flex justify-between">
-            <div class="w-60 h-85 bg-gray-200 rounded-2xl border p-6 flex flex-col justify-between hover:shadow-[0px_15px_0px_0px_rgba(36,36,36,1)] hover:translate-y-[-2px] transition duration-300 ease-in-out">
-                <p class="font-black text-xl mb-2">Peminjaman Buku</p>
-                <p class="text-sm">Nikmati akses ke ratusan buku dari berbagai kategori, dari fiksi hingga akademik.</p>
+            <div class="w-60 h-85 bg-[#535353] rounded-2xl border p-6 flex flex-col justify-between hover:shadow-[0px_15px_0px_0px_rgba(36,36,36,1)] hover:translate-y-[-2px] transition duration-300 ease-in-out">
+                <p class="font-black text-white text-xl mb-2">Peminjaman Buku</p>
+                <p class="text-sm text-white">Nikmati akses ke ratusan buku dari berbagai kategori, dari fiksi hingga akademik.</p>
             </div>
 
-            <div class="w-60 h-85 bg-gray-200 rounded-2xl border p-6 flex flex-col justify-between hover:shadow-[0px_15px_0px_0px_rgba(36,36,36,1)] hover:translate-y-[-2px] transition duration-300 ease-in-out">
-                <p class="font-black text-xl mb-2">Akses Digital</p>
-                <p class="text-sm">Unduh jurnal, e-book, dan referensi online melalui sistem perpustakaan digital kami.</p>
+            <div class="w-60 h-85 bg-[#535353] rounded-2xl border p-6 flex flex-col justify-between hover:shadow-[0px_15px_0px_0px_rgba(36,36,36,1)] hover:translate-y-[-2px] transition duration-300 ease-in-out">
+                <p class="font-black text-white text-xl mb-2">Akses Digital</p>
+                <p class="text-sm text-white">Unduh jurnal, e-book, dan referensi online melalui sistem perpustakaan digital kami.</p>
             </div>
 
-            <div class="w-60 h-85 bg-gray-200 rounded-2xl border p-6 flex flex-col justify-between hover:shadow-[0px_15px_0px_0px_rgba(36,36,36,1)] hover:translate-y-[-2px] transition duration-300 ease-in-out">
-                <p class="font-black text-xl mb-2">Ruang Diskusi</p>
-                <p class="text-sm">Fasilitas ruang nyaman untuk belajar kelompok, berdiskusi, dan brainstorming ide.</p>
+            <div class="w-60 h-85 bg-[#535353] rounded-2xl border p-6 flex flex-col justify-between hover:shadow-[0px_15px_0px_0px_rgba(36,36,36,1)] hover:translate-y-[-2px] transition duration-300 ease-in-out">
+                <p class="font-black text-white text-xl mb-2">Ruang Diskusi</p>
+                <p class="text-sm text-white">Fasilitas ruang nyaman untuk belajar kelompok, berdiskusi, dan brainstorming ide.</p>
             </div>
 
-            <div class="w-60 h-85 bg-gray-200 rounded-2xl border p-6 flex flex-col justify-between hover:shadow-[0px_15px_0px_0px_rgba(36,36,36,1)] hover:translate-y-[-2px] transition duration-300 ease-in-out">
-                <p class="font-black text-xl mb-2">Acara Literasi</p>
-                <p class="text-sm">Ikuti berbagai acara seperti bedah buku, pelatihan menulis, dan diskusi sastra rutin.</p>
+            <div class="w-60 h-85 bg-[#535353] rounded-2xl border p-6 flex flex-col justify-between hover:shadow-[0px_15px_0px_0px_rgba(36,36,36,1)] hover:translate-y-[-2px] transition duration-300 ease-in-out">
+                <p class="font-black text-white text-xl mb-2">Acara Literasi</p>
+                <p class="text-sm text-white">Ikuti berbagai acara seperti bedah buku, pelatihan menulis, dan diskusi sastra rutin.</p>
             </div>
         </div>
     </div>
@@ -62,7 +67,7 @@
         </p>
     
         <!-- Kotak isi dan tombol -->
-        <div class="w-full lg:w-3/5 rounded-2xl bg-[#242424] text-white p-10 flex flex-col justify-between">
+        <div class="w-full lg:w-3/5 rounded-2xl bg-[#535353] text-white p-10 flex flex-col justify-between">
             <p class="text-base lg:text-lg mb-6 leading-relaxed">
                 Kami terbuka untuk kerja sama dan kolaborasi dengan sekolah, komunitas, maupun individu 
                 yang memiliki semangat dalam pengembangan literasi.

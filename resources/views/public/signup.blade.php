@@ -3,7 +3,7 @@
 @section('title', 'Daftar Akun')
 
 @section('main')
-<div class="flex justify-center items-center min-h-screen bg-gray-50">
+<div class="container section flex justify-center items-center min-h-screen bg-gray-50">
     <div class="bg-white rounded-xl shadow border p-8 w-full max-w-md">
         <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Daftar Akun</h2>
 
@@ -54,7 +54,7 @@
 
             <div class="pt-2">
                 <button type="submit"
-                    class="w-full bg-[#242424] text-white py-2 rounded-lg hover:bg-gray-800 transition">
+                    class="w-full bg-[#535353] text-white py-2 rounded-lg hover:bg-gray-800 transition">
                     Daftar
                 </button>
             </div>
